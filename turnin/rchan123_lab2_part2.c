@@ -22,9 +22,10 @@ int main(void) {
 	// unsigned char tmpB = 0x00;
 	unsigned char tmpA = 0x00;
 	unsigned char cntavail = 0x00;
+	// unsigned char allfull = 0x00;
 	while (1) {
 		tmpA = PINA & 0x0F;
-		cntavail = ((tmpA & 0x08) >> 3) + ((tmpA & 0x04) >> 2) + ((tmpA & 0x02) >> 1) + (tmpA & 0x01);
+		cntavail = (1-((tmpA & 0x08) >> 3)) + (1-((tmpA & 0x04) >> 2)) + (1-((tmpA & 0x02) >> 1)) + (1-(tmpA & 0x01));
 		PORTC = cntavail;
 	}
 	return 0;
