@@ -15,23 +15,21 @@
 int main(void) {
 	/* Insert DDR and PORT initializations */
 	DDRA = 0x00; 
-	PORTA = 0x00; 
+	PORTA = 0xFF; 
 	DDRB = 0xFF;
 	PORTB = 0x00;
 	/* Insert your solution below */
+	unsigned char tmpB = 0x00;
+	unsigned char tmpA = 0x00;
 	while (1) {
-		if(!PA1 && !PA0){
-			PORTB = 0;
-		}
-		else if(!PA1 && PA0){
-			PORTB = 1;
-		}
-		else if(PA1 && !PA0){
-			PORTB = 0;
+		tmpA = PINA & 0x03;
+ 		if(tmpA == 0x01){
+			tmpB = 0x01;
 		}
 		else{
-			PORTB = 0;
+			tmpB = 0x00;
 		}
+		PORTB = tmpB;
 	}
-	return 1;
+	return 0;
 }
