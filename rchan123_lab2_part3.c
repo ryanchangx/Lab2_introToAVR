@@ -26,8 +26,8 @@ int main(void) {
 	while (1) {
 		tmpA = PINA & 0x0F;
 		cntavail = (1-((tmpA & 0x08) >> 3)) + (1-((tmpA & 0x04) >> 2)) + (1-((tmpA & 0x02) >> 1)) + (1-(tmpA & 0x01));
-		allfull = (PINA == 0x0F)? 0x80 : 0x00; 
-		PORTC = cntavail + allfull;
+		allfull = (cntavail == 0)? 0x80 : 0x00; 
+		PORTC = cntavail | allfull;
 	}
 	return 0;
 }
