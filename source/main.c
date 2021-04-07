@@ -1,7 +1,7 @@
 /*	Author: rchan123
  *  	Partner(s) Name: 
  *	Lab Section: 023
- *	Assignment: Lab 2  Exercise 3
+ *	Assignment: Lab 2  Exercise 4
  *	Exercise Description: [optional - include for your own benefit]
  *
  *	I acknowledge all content contained herein, excluding template or example
@@ -14,20 +14,22 @@
 
 int main(void) {
 	/* Insert DDR and PORT initializations */
-	DDRA = 0x00; 
-	PORTA = 0x00; 
-	DDRC = 0xFF;
-	PORTC = 0x00;
+	DDRA = 0x00; PORTA = 0x00;
+	DDRB = 0x00; PORTB = 0x00; 
+	DDRC = 0x00; PORTC = 0x00;
+	DDRD = 0xFF; PORTD = 0x00;
 	/* Insert your solution below */
-	// unsigned char tmpB = 0x00;
-	unsigned char tmpA = 0x00;
-	unsigned char cntavail = 0x00;
-	unsigned char allfull = 0x00;
+	unsigned char tmpD = 0x00;
+	unsigned char exceeds = 0x00;
+	unsigned char unbalanced = 0x00;
+	int total = 0;
 	while (1) {
-		tmpA = PINA & 0x0F;
-		cntavail = (1-((tmpA & 0x08) >> 3)) + (1-((tmpA & 0x04) >> 2)) + (1-((tmpA & 0x02) >> 1)) + (1-(tmpA & 0x01));
-		allfull = (cntavail == 0)? 0x80 : 0x00; 
-		PORTC = cntavail | allfull;
+		//calculate the total weight
+		total = PINA + PINB + PINC;
+		exceeds = (total > 140)? 0x01 : 0x00;	//weight exceeds 140, then 1 to PD0
+		unbalanced = ((PINA > 80 + PINC) || (PINC > 80 + PINA))? 0x02 : 0x00;
+		tmpD = (total >> 2); 
+		PORTD = tmpD | (exceeds | unbalanced);
 	}
 	return 0;
 }
