@@ -15,9 +15,17 @@
 # that they are not ran in isolation but in the order shown and the state of the device is not reset or 
 # altered in between executions (unless preconditions are used).
 tests = [ 
-    {'description': 'PINA: 0x00, PINB: 0x00, PINC: 0x00 => PORTD: 0x00',
-    'steps': [ {'inputs': [('PINA', 0x00), ('PINB', 0x00), ('PINC', 0x00)], 'iterations': 5 } ],
-    'expected': [('PORTD', 0x00)],
+    {'description': 'PINA: 64, PINB: 64, PINC: 64 => PORTD: 0x31',
+    'steps': [ {'inputs': [('PINA', 64), ('PINB', 64), ('PINC', 64)], 'iterations': 5 } ],
+    'expected': [('PORTD', 0x31)],
+    },
+    {'description': 'PINA: 0, PINB: 35, PINC: 85 => PORTD: 0x1E',
+    'steps': [ {'inputs': [('PINA', 0), ('PINB', 35), ('PINC', 85)], 'iterations': 5 } ],
+    'expected': [('PORTD', 0x1E)],
+    },
+    {'description': 'PINA: 0, PINB: 56, PINC: 85 => PORTD: 0x22',
+    'steps': [ {'inputs': [('PINA', 0), ('PINB', 56), ('PINC', 85)], 'iterations': 5 } ],
+    'expected': [('PORTD', 0x22)],
     },
     ]
 

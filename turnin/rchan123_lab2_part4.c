@@ -20,24 +20,16 @@ int main(void) {
 	DDRD = 0xFF; PORTD = 0x00;
 	/* Insert your solution below */
 	unsigned char tmpD = 0x00;
+	unsigned char exceeds = 0x00;
+	unsigned char unbalanced = 0x00;
 	int total = 0;
 	while (1) {
 		//calculate the total weight
-		tmpD = PINA + PINB + PINC;
-		if((tmpD >> 7) != 0){
-			tmpD = tmpD >> 2;
-		}
-		else if((tmpD >> 6) != 0){
-			tmpD = tmpD >> 1;
-		}
-		tmpD = tmpD << 2;
-		if(total > 140){
-			tmpD = tmpD | 0x01;
-		}
-		if(PORTA - PORTC > 80){
-			tmpD = tmpD | 0x02;
-		}
-		PORTD = tmpD;
+		total = PINA + PINB + PINC;
+		exceeds = (total > 140)? 0x01 : 0x00;	//weight exceeds 140, then 1 to PD0
+		unbalanced = ((PINA > 80 + PINC) || (PINC > 80 + PINA))? 0x02 : 0x00;
+		tmpD = (total >> 2) & 0xFC; 
+		PORTD = tmpD | exceeds | unbalanced;
 	}
 	return 0;
 }
